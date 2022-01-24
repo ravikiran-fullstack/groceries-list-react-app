@@ -4,13 +4,21 @@ import Footer from "./Footer";
 import UseStateHook from "./UseStateHook";
 import SearchItem from "./SearchItem";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AddItem from "./AddItem";
 
 function App() {
-  const [items, setItems] = useState(
-    JSON.parse(localStorage.getItem("shoppingList"))
-  );
+  const API_URL = "http://localhost:3500/items";
+  const [items, setItems] = useState([]);
+
+  console.log("before");
+  useEffect(() => {
+    // it is asynchronous
+    //setItems();
+    localStorage.setItem("shoppingList", JSON.stringify(items));
+  }, [items]);
+
+  console.log("after");
 
   // console.log(items);
   const [newItem, setNewItem] = useState("");
@@ -20,13 +28,8 @@ function App() {
     const id = items.length ? items[items.length - 1].id + 1 : 1;
     const myNewItem = { id, checked: false, item };
     const listItems = [...items, myNewItem];
-    console.log("addItem", listItems);
-    setAndSaveItems(listItems);
-  };
-
-  const setAndSaveItems = (newItems) => {
-    setItems(newItems);
-    localStorage.setItem("shoppingList", JSON.stringify(newItems));
+    // console.log("addItem", listItems);
+    setItems(listItems);
   };
 
   const handleSubmit = (e) => {
@@ -36,23 +39,23 @@ function App() {
     }
     addItem(newItem);
     setNewItem("");
-    console.log("handlesubmit");
+    // console.log("handlesubmit");
   };
 
   const handleCheck = (id) => {
-    console.log(id);
+    // console.log(id);
     const listItems = items.map((item) =>
       item.id === id ? { ...item, checked: !item.checked } : item
     );
-    console.log(listItems);
-    setAndSaveItems(listItems);
+    // console.log(listItems);
+    setItems(listItems);
   };
 
   const handleDelete = (id) => {
-    console.log(id);
+    // console.log(id);
     const listItems = items.filter((item) => item.id !== id);
-    console.log(listItems);
-    setAndSaveItems(listItems);
+    // console.log(listItems);
+    setItems(listItems);
   };
 
   return (
