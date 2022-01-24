@@ -47,7 +47,7 @@ main {
   justify-content: flex-start;
   align-items: center;
   overflow-y: auto;
-  border: 2px solid red;
+  /* border: 2px solid red; */
 }
 
 .useStateHook {
